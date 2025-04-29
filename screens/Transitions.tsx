@@ -9,6 +9,7 @@ import {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import { useSpring } from '../hooks/animation/useSpring';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,20 +21,7 @@ const styles = StyleSheet.create({
 
 export const Transitions = () => {
   const [toggled, setToggle] = useState<boolean>(false);
-  // Created Shared Animation value that depends on react State above
-  const isToggled = useSharedValue<number>(0);
-
-  // Side Effect on each render that only runs when toggled or isToggled changes
-  useEffect(() => {
-    // When we toggle the state, also set the animation value to play our animation
-    isToggled.value = toggled ? 1 : 0;
-  }, [toggled, isToggled]);
-
-  // Create a new animation value based on other animation values using useDerivedValue
-  //--Aka, our spring transition animation is dependent on the value of isToggled.
-  const transition = useDerivedValue(() => {
-    return withSpring(isToggled.value);
-  });
+  const transition = useSpring(toggled);
 
   return (
     <View style={styles.container}>

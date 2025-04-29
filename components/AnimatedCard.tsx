@@ -47,13 +47,6 @@ export const AnimatedCard = ({
       ],
     };
   });
-  // const style  = {
-  //   transform: [
-  //     { translateX: origin },
-  //     { rotate: `${rotation}rad` },
-  //     { translateX: -origin },
-  //   ],
-  // };
   return (
     <Animated.View key={card} style={[styles.overlay, style]}>
       <Card {...{ card }} />
