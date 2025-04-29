@@ -10,6 +10,7 @@ import {
   withSpring,
 } from 'react-native-reanimated';
 import { useSpring } from '../hooks/animation/useSpring';
+import { useTransition } from '../hooks/animation/useTransition';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +22,10 @@ const styles = StyleSheet.create({
 
 export const Transitions = () => {
   const [toggled, setToggle] = useState<boolean>(false);
-  const transition = useSpring(toggled);
+  //const transition = useSpring(toggled);
+  const transitionValueWithoutState = useSharedValue(0);
+
+  const transition = useTransition(transitionValueWithoutState);
 
   return (
     <View style={styles.container}>
@@ -31,7 +35,11 @@ export const Transitions = () => {
       <Button
         label={toggled ? 'Reset' : 'Start'}
         primary
-        onPress={() => setToggle((prev) => !prev)}
+        onPress={() =>
+          transitionValueWithoutState.value === 0
+            ? (transitionValueWithoutState.value = 1)
+            : (transitionValueWithoutState.value = 0)
+        }
       />
     </View>
   );
